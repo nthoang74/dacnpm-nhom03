@@ -6,6 +6,7 @@
 4. 1612599 - Nguyễn Việt Tân
 5. 1612394 - Nguyễn Hoàng Phương Nam
 6. 1612215 - Nguyễn Thanh Hoàng
+7. 1612654 - Trần Minh Thiện
 
 ## II. Available Scripts
 
