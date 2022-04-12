@@ -7,6 +7,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     '&:hover': {
       background: '#D3E0FF',
+      cursor: 'pointer',
     },
   },
   thumbnail: {
