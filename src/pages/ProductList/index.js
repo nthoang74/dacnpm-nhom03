@@ -98,7 +98,7 @@ const ProductList = () => {
     const getListProduct = async () => {
       try {
         setIsLoading(true);
-        const response = await axiosClient.get(`api/products`);
+        const response = await axiosClient.get(`api/product`);
 
         if (response.status === 200) {
           setIsLoading(false);
