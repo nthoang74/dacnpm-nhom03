@@ -5,6 +5,7 @@ import HomePage from 'pages/HomePage';
 import SignInPage from 'pages/SignInPage';
 import SignUpPage from 'pages/SignUpPage';
 import ProductList from 'pages/ProductList';
+import PaymentPage from 'pages/PaymentPage';
 
 const DefaultComponent = () => {
   return <Navigate to={Routes.home.path} />;
@@ -18,6 +19,10 @@ export const Routes = {
   signUp: {
     path: '/sign-up',
     element: SignUpPage,
+  },
+  payment: {
+    path: '/payment',
+    element: PaymentPage,
   },
   products: {
     path: '/products',
