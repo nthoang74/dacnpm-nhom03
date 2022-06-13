@@ -108,6 +108,7 @@ const ProductDetail = () => {
               variations={product.variations}
               promotion={product.discount_id}
               store={product.store_id}
+              productId={product._id}
             />
             <Box sx={{ width: '100%' }} marginY={2}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

@@ -17,7 +17,7 @@ module.exports = {
     'no-console': 'warn',
     'import/first': 'error',
     'react/prop-types': 0,
-    'linebreak-style': ['error', 'windows'],
+    'linebreak-style': ['off', 'windows'],
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
     'prettier/prettier': [

@@ -15,7 +15,6 @@ import {
   Avatar,
   Link,
 } from '@mui/material';
-import { useRadioGroup } from '@mui/material/RadioGroup';
 import { emphasize, styled } from '@mui/material/styles';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Chip from '@mui/material/Chip';
@@ -26,6 +25,11 @@ import PriceFormat from 'components/PriceFormat';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import ImagesCarousel from './imageCarousel';
+import axiosClient from 'apis';
+import { useDispatch, useSelector } from 'react-redux';
+import { setErrorMsg, setSuccessMsg } from 'store/alert';
+import { Routes } from 'routes';
+import { useNavigate } from 'react-router-dom';
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
@@ -49,11 +53,39 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 
 export default function VariationsDisplayer({
   category,
+  productId,
   productName,
   variations,
   promotion,
   store,
 }) {
+  const [variationInfo, setVariationInfo] = useState({ images: [] });
+  const [options, setOptions] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (variations.length) {
+      const obj = variations.reduce((accum, element) => {
+        element.variation_attributes.forEach((attribute) => {
+          const variationName = attribute.variation_name;
+          const value = attribute.value;
+          if (accum[variationName] === undefined)
+            accum[variationName] = [value];
+          else if (!accum[variationName].includes(value))
+            accum[variationName].push(value);
+        });
+        return accum;
+      }, {});
+      console.log({ obj });
+      setOptions(obj);
+      setVariationInfo(variations[0]);
+    } else {
+      console.log({ variations });
+    }
+  }, [variations]);
+
   const handleChange = (event) => {
     const currentOptions = [
       ...JSON.parse(JSON.stringify(variationInfo.variation_attributes)),
@@ -76,29 +108,29 @@ export default function VariationsDisplayer({
     });
     setVariationInfo(foundVariation);
   };
-  const [variationInfo, setVariationInfo] = useState({ images: [] });
-  const [options, setOptions] = useState({});
 
-  useEffect(() => {
-    if (variations.length) {
-      const obj = variations.reduce((accum, element) => {
-        element.variation_attributes.forEach((attribute) => {
-          const variationName = attribute.variation_name;
-          const value = attribute.value;
-          if (accum[variationName] === undefined)
-            accum[variationName] = [value];
-          else if (!accum[variationName].includes(value))
-            accum[variationName].push(value);
-        });
-        return accum;
-      }, {});
-      console.log({ obj });
-      setOptions(obj);
-      setVariationInfo(variations[0]);
-    } else {
-      console.log({ variations });
+  const handleAddToCartBtn = async () => {
+    //login? if not redirect to login page
+    if (!isAuthenticated) navigate(Routes.signIn.path);
+    //send userid, productid, productvariationid, quantity
+    try {
+      const quantity = document.getElementById('product-quantity').value;
+      const response = await axiosClient.post(`/api/cart/add-product`, {
+        user_id: JSON.parse(user).id,
+        product_id: productId,
+        product_variation_id: variationInfo._id,
+        quantity: quantity,
+      });
+
+      dispatch(setSuccessMsg(response.data.data.message));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      if (error.response.data && error.response.data.message) {
+        dispatch(setErrorMsg(error.response.data.message));
+      } else console.log(error);
     }
-  }, [variations]);
+  };
 
   return (
     <Grid container spacing={3}>
@@ -128,7 +160,7 @@ export default function VariationsDisplayer({
           // justifyContent="space-between"
           marginTop={1}
         >
-          <Avatar src={store.store_image} />
+          <Avatar src={store.store_image} variant='rounded' />
           <Link href='#'>{store.store_name}</Link>
         </Stack>
         <Typography variant='h4' marginY={1}>
@@ -160,7 +192,7 @@ export default function VariationsDisplayer({
           ))}
         </FormControl>
         <Stack marginY={1}>
-          <Typography>Available Stock: {variationInfo.stock}</Typography>
+          <Typography>Available Stock: {variationInfo.stock} </Typography>
           <Stack
             direction='row'
             spacing={0.5}
@@ -222,17 +254,22 @@ export default function VariationsDisplayer({
         <Stack direction='row' display='flex' alignItems='center' spacing={1}>
           <Typography>Amount:</Typography>
           <TextField
+            id='product-quantity'
             type='number'
             defaultValue={1}
             variant='standard'
             InputProps={{
               inputProps: {
-                max: 100,
+                max: variationInfo.stock,
                 min: 0,
               },
             }}
           />
-          <Button variant='contained' startIcon={<ShoppingCartOutlinedIcon />}>
+          <Button
+            variant='contained'
+            startIcon={<ShoppingCartOutlinedIcon />}
+            onClick={handleAddToCartBtn}
+          >
             Add to cart
           </Button>
         </Stack>
