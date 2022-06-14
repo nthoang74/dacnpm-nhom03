@@ -6,6 +6,8 @@ import SignInPage from 'pages/SignInPage';
 import SignUpPage from 'pages/SignUpPage';
 import ProductList from 'pages/ProductList';
 import PaymentPage from 'pages/PaymentPage';
+import ProductDetail from 'pages/ProductDetail';
+import CartDetail from 'pages/CartDetail';
 
 const DefaultComponent = () => {
   return <Navigate to={Routes.home.path} />;
@@ -37,6 +39,14 @@ export const Routes = {
         element: DefaultComponent,
       },
     },
+  },
+  ProductDetail: {
+    path: '/detail/:productId',
+    element: ProductDetail,
+  },
+  CartDetail: {
+    path: '/cart-detail',
+    element: CartDetail,
   },
   home: {
     path: '/',
