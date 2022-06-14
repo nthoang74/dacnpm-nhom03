@@ -48,6 +48,7 @@ export default function ImagesCarousel({ images }) {
                   width: 'auto',
                   display: 'block',
                   maxWidth: '100%',
+                  maxHeight: '442px',
                   overflow: 'hidden',
                 }}
                 src={image}
