@@ -17,7 +17,7 @@ module.exports = {
     'no-console': 'warn',
     'import/first': 'error',
     'react/prop-types': 0,
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': ['error', 'windows'],
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
     'prettier/prettier': [
@@ -26,6 +26,7 @@ module.exports = {
         singleQuote: true,
         semi: true,
         jsxSingleQuote: true,
+        endOfLine: 'auto',
       },
     ],
   },

@@ -5,6 +5,7 @@ import HomePage from 'pages/HomePage';
 import SignInPage from 'pages/SignInPage';
 import SignUpPage from 'pages/SignUpPage';
 import ProductList from 'pages/ProductList';
+import ProductDetail from 'pages/ProductDetail';
 
 const DefaultComponent = () => {
   return <Navigate to={Routes.home.path} />;
@@ -32,6 +33,10 @@ export const Routes = {
         element: DefaultComponent,
       },
     },
+  },
+  ProductDetail: {
+    path: '/detail/:productId',
+    element: ProductDetail,
   },
   home: {
     path: '/',
