@@ -145,8 +145,15 @@ const SearchBar = () => {
   };
 
   //PRODUCT PAGE
+  const searchHandler = () => {
+    navigate(`../product/${document.getElementById('search').value}`, {
+      replace: true,
+    });
+    navigate(0);
+  };
+
   const chooseHandler = (id) => {
-    navigate(`../product/${id}`, { replace: true });
+    navigate(`../detail/${id}`, { replace: true });
     navigate(0);
   };
 
@@ -244,6 +251,7 @@ const SearchBar = () => {
               variant='contained'
               aria-label='search button'
               edge='end'
+              onClick={searchHandler}
             >
               <Search />
             </Button>
@@ -294,7 +302,7 @@ const SearchBar = () => {
               {product.map((prod) => (
                 <RecommendProduct
                   key={prod._id}
-                  imgsrc={prod.thumbnail}
+                  imgsrc={prod.thumbnails}
                   name={prod.name}
                   choose={() => chooseHandler(prod._id)}
                 />
