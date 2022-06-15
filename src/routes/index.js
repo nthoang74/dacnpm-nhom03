@@ -4,6 +4,11 @@ import { Navigate, Route } from 'react-router-dom';
 import HomePage from 'pages/HomePage';
 import SignInPage from 'pages/SignInPage';
 import SignUpPage from 'pages/SignUpPage';
+import ProductList from 'pages/ProductList';
+import CheckoutCart from 'pages/CheckoutCart';
+import PaymentPage from 'pages/PaymentPage';
+import ProductDetail from 'pages/ProductDetail';
+import CartDetail from 'pages/CartDetail';
 
 const DefaultComponent = () => {
   return <Navigate to={Routes.home.path} />;
@@ -17,6 +22,36 @@ export const Routes = {
   signUp: {
     path: '/sign-up',
     element: SignUpPage,
+  },
+  payment: {
+    path: '/payment',
+    element: PaymentPage,
+  },
+  products: {
+    path: '/products',
+    element: ProductList,
+    routes: {
+      laptop: {
+        path: 'laptop',
+        element: ProductList,
+      },
+      default: {
+        path: '*',
+        element: DefaultComponent,
+      },
+    },
+  },
+  checkout: {
+    path: '/checkout',
+    element: CheckoutCart,
+  },
+  ProductDetail: {
+    path: '/detail/:productId',
+    element: ProductDetail,
+  },
+  CartDetail: {
+    path: '/cart-detail',
+    element: CartDetail,
   },
   home: {
     path: '/',
