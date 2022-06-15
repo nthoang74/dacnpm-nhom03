@@ -6,7 +6,11 @@ const productApi = {
     return axiosClient.get(url, { params });
   },
   get: (id) => {
-    const url = `api/produc/find/${id}`;
+    const url = `api/product/${id}`;
+    return axiosClient.get(url);
+  },
+  getVariation: (id) => {
+    const url = `api/product/recent-variations/${id}`;
     return axiosClient.get(url);
   },
   recommend: (key) => {
